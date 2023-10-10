@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>After School Classes</h1>
+    </div>
+    <div class="container pt-5">
+        <h3>Sort By</h3>
+        <div class="row">
+            <div class="col-2">
+                <form>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort" id="subject" value="subject">
+                        <label class="form-check-label" for="subject">Subject</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort" id="location" value="location">
+                        <label class="form-check-label" for="location">Location</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort" id="price" value="price">
+                        <label class="form-check-label" for="price">Price</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort" id="availability" value="availability">
+                        <label class="form-check-label" for="availability">Availability</label>
+                    </div>
+                </form>
+            </div>
+            <div class="col">
+                <form>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort2" id="ascending" value="ascending">
+                        <label class="form-check-label" for="ascending">Ascending</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort2" id="descending" value="descending">
+                        <label class="form-check-label" for="descending">Descending</label>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+
+        </div>
+    </div>
+    <div id="box" class="main-box container pt-5">
+        <div class="row">
+            <div class="col-4 pt-5" v-for="lesson in lessons">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <p>Subject: {{ lesson.Subject }}</p>
+                                    <p>Location: {{ lesson.Location }}</p>
+                                    <p>Price: {{ lesson.Price }}</p>
+                                    <p>Spaces: {{ lesson.Spaces }}</p>
+                                </div>
+                                <div class="col">
+                                    <div class="row pt-2">
+                                        <i v-bind:class="lesson.Image" style="color: #18dddd;"></i>
+                                    </div>
+                                    <div class="row pt-5">
+                                        <button v-if="lesson.Spaces > 0" class="add-to-cart-button" type="button">
+                                            Add to Cart
+                                        </button>
+                                        <button v-else  disabled class="add-to-cart-button" type="button">
+                                            Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="lessons.js"></script>
+</body>
+</body>
+</html>

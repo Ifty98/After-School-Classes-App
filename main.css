@@ -1,0 +1,25 @@
+body {
+    background-color: rgb(50, 90, 92);
+}
+
+h1 {
+    color: rgb(11, 211, 177);
+    text-shadow: 3px 3px rgb(13, 16, 216);
+    font-family: fantasy;
+}
+
+.add-to-cart-button {
+    color: rgb(4, 8, 12);
+    background-color: rgb(43, 139, 110);
+    border-radius: 20px;
+    width: 150px;
+    height: 50px;
+}
+
+h3 {
+    color: aquamarine;
+}
+
+label {
+    color: rgb(12, 206, 223);
+}
