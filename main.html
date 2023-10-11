@@ -14,37 +14,38 @@
     <div class="container mt-5">
         <h1>After School Classes</h1>
     </div>
+  <div id="box">
     <div class="container pt-5">
         <h3>Sort By</h3>
         <div class="row">
             <div class="col-2">
                 <form>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort" id="subject" value="subject">
+                        <input v-model="sort1" class="form-check-input" type="radio" name="sort" id="subject" value="subject">
                         <label class="form-check-label" for="subject">Subject</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort" id="location" value="location">
+                        <input v-model="sort1" class="form-check-input" type="radio" name="sort" id="location" value="location">
                         <label class="form-check-label" for="location">Location</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort" id="price" value="price">
+                        <input v-model="sort1" class="form-check-input" type="radio" name="sort" id="price" value="price">
                         <label class="form-check-label" for="price">Price</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort" id="availability" value="availability">
+                        <input v-model="sort1" class="form-check-input" type="radio" name="sort" id="availability" value="availability">
                         <label class="form-check-label" for="availability">Availability</label>
                     </div>
                 </form>
             </div>
-            <div class="col">
+            <div class="col-2">
                 <form>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort2" id="ascending" value="ascending">
+                        <input v-model="sort2" class="form-check-input" type="radio" name="sort2" id="ascending" value="ascending">
                         <label class="form-check-label" for="ascending">Ascending</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort2" id="descending" value="descending">
+                        <input v-model="sort2" class="form-check-input" type="radio" name="sort2" id="descending" value="descending">
                         <label class="form-check-label" for="descending">Descending</label>
                     </div>
                 </form>
@@ -54,9 +55,9 @@
 
         </div>
     </div>
-    <div id="box" class="main-box container pt-5">
+    <div class="main-box container pt-5">
         <div class="row">
-            <div class="col-4 pt-5" v-for="lesson in lessons">
+            <div class="col-4 pt-5" v-for="lesson in sortedLessons">
                 <div class="card">
                     <div class="card-body">
                         <div class="container">
@@ -64,7 +65,7 @@
                                 <div class="col">
                                     <p>Subject: {{ lesson.Subject }}</p>
                                     <p>Location: {{ lesson.Location }}</p>
-                                    <p>Price: {{ lesson.Price }}</p>
+                                    <p>Price: £{{ lesson.Price }}</p>
                                     <p>Spaces: {{ lesson.Spaces }}</p>
                                 </div>
                                 <div class="col">
@@ -87,7 +88,7 @@
             </div>
         </div>
     </div>
+  </div>
     <script src="lessons.js"></script>
-</body>
 </body>
 </html>

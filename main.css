@@ -23,3 +23,12 @@ h3 {
 label {
     color: rgb(12, 206, 223);
 }
+
+.card {
+    border-end-end-radius: 30px;
+    border-width: 5px;
+    border-bottom-color: aqua;
+    border-top-color: azure;
+    border-left-color: azure;
+    border-right-color: aqua;
+}
