@@ -100,6 +100,17 @@ const app = Vue.createApp({
                 }
             }
 
+            if (this.sort1 === 'location') {
+                if (this.sort2 === 'ascending') {
+                    return this.lessons.slice().sort((a, b) => a.Location.localeCompare(b.Location));
+                } 
+                if (this.sort2 === 'descending') {
+                    return this.lessons.slice().sort((a, b) => b.Location.localeCompare(a.Location));
+                } else {
+                    return this.lessons;
+                }
+            }
+
             if (this.sort1 === 'price') {
                 if (this.sort2 === 'ascending') {
                     return this.lessons.slice().sort((a, b) => a.Price - b.Price);
@@ -109,7 +120,20 @@ const app = Vue.createApp({
                 } else {
                     return this.lessons;
                 }
-            } else {
+            }
+
+            if (this.sort1 === 'availability') {
+                if (this.sort2 === 'ascending') {
+                    return this.lessons.slice().sort((a, b) => a.Spaces - b.Spaces);
+                } 
+                if (this.sort2 === 'descending') {
+                    return this.lessons.slice().sort((a, b) => b.Spaces - a.Spaces);
+                } else {
+                    return this.lessons;
+                }
+            }
+            
+            else {
                 return this.lessons;
             }
              
