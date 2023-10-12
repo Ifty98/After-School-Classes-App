@@ -38,7 +38,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-2">
+            <div class="col-5">
                 <form>
                     <div class="form-check">
                         <input v-model="sort2" class="form-check-input" type="radio" name="sort2" id="ascending" value="ascending">
@@ -50,9 +50,11 @@
                     </div>
                 </form>
             </div>
-        </div>
-        <div class="row">
-
+            <div class="col-4">
+                <form action="shoppingCart.html">
+                    <button class="shopping-cart" type="submit">Shopping Cart</button>
+                </form>
+            </div>
         </div>
     </div>
     <div class="main-box container pt-5">
@@ -73,10 +75,10 @@
                                         <i v-bind:class="lesson.Image" style="color: #18dddd;"></i>
                                     </div>
                                     <div class="row pt-5">
-                                        <button v-if="lesson.Spaces > 0" class="add-to-cart-button" type="button">
+                                        <button v-if="lesson.Spaces > 0" @:click="addToCart(lesson)" class="add-to-cart-button" type="button">
                                             Add to Cart
                                         </button>
-                                        <button v-else  disabled class="add-to-cart-button" type="button">
+                                        <button v-else disabled class="add-to-cart-button" type="button">
                                             Add to Cart
                                         </button>
                                     </div>

@@ -84,7 +84,10 @@ const app = Vue.createApp({
                     Spaces: 5,
                     Image: "fa-solid fa-music fa-beat-fade fa-4x",
                 },
-            ]
+            ],
+            shoppingCart: [
+
+            ],
         }
     },
     computed: {
@@ -136,11 +139,18 @@ const app = Vue.createApp({
             else {
                 return this.lessons;
             }
-             
-            
-            
         }
-      }
+    },
+
+    methods: {
+        addToCart(lesson) {
+            if (lesson.Spaces > 0) {
+                lesson.Spaces--;
+                this.shoppingCart.push(lesson);
+            }
+        }
+    }
+
       
 })
 

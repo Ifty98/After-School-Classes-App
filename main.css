@@ -10,10 +10,19 @@ h1 {
 
 .add-to-cart-button {
     color: rgb(4, 8, 12);
-    background-color: rgb(43, 139, 110);
+    background-color: rgb(3, 15, 11);
+    border: none;
     border-radius: 20px;
+    border: none;
+    box-shadow: 3px 3px 3px 3px rgb(0,0,0);
+    color: aliceblue;
+    cursor: pointer;
     width: 150px;
     height: 50px;
+}
+
+.add-to-cart-button:hover {
+    background-color: rgb(8, 139, 102);
 }
 
 h3 {
@@ -31,4 +40,19 @@ label {
     border-top-color: azure;
     border-left-color: azure;
     border-right-color: aqua;
+}
+
+.shopping-cart {
+    width: 150px;
+    height: 50px;
+    background-color: darkcyan;
+    cursor: pointer;
+    color: aliceblue;
+    border-radius: 25%;
+    border: none;
+    box-shadow: 2px 2px 2px 2px rgb(10, 212, 178);
+}
+
+.shopping-cart:hover {
+    background-color: rgb(6, 110, 142);
 }
