@@ -5,6 +5,8 @@ const app = Vue.createApp({
             sort2: '',
             showCart: false,
             showMain: true,
+            name: '',
+            phoneNumber: '',
             lessons: [
                 {
                     id: 1,
@@ -97,7 +99,7 @@ const app = Vue.createApp({
             if (this.sort1 === 'subject') {
                 if (this.sort2 === 'ascending') {
                     return this.lessons.slice().sort((a, b) => a.Subject.localeCompare(b.Subject));
-                } 
+                }
                 if (this.sort2 === 'descending') {
                     return this.lessons.slice().sort((a, b) => b.Subject.localeCompare(a.Subject));
                 } else {
@@ -108,7 +110,7 @@ const app = Vue.createApp({
             if (this.sort1 === 'location') {
                 if (this.sort2 === 'ascending') {
                     return this.lessons.slice().sort((a, b) => a.Location.localeCompare(b.Location));
-                } 
+                }
                 if (this.sort2 === 'descending') {
                     return this.lessons.slice().sort((a, b) => b.Location.localeCompare(a.Location));
                 } else {
@@ -119,7 +121,7 @@ const app = Vue.createApp({
             if (this.sort1 === 'price') {
                 if (this.sort2 === 'ascending') {
                     return this.lessons.slice().sort((a, b) => a.Price - b.Price);
-                } 
+                }
                 if (this.sort2 === 'descending') {
                     return this.lessons.slice().sort((a, b) => b.Price - a.Price);
                 } else {
@@ -130,35 +132,49 @@ const app = Vue.createApp({
             if (this.sort1 === 'availability') {
                 if (this.sort2 === 'ascending') {
                     return this.lessons.slice().sort((a, b) => a.Spaces - b.Spaces);
-                } 
+                }
                 if (this.sort2 === 'descending') {
                     return this.lessons.slice().sort((a, b) => b.Spaces - a.Spaces);
                 } else {
                     return this.lessons;
                 }
             }
-            
+
             else {
                 return this.lessons;
             }
+        },
+
+        correctForm() {
+            // Check if the name and phoneNumber are not empty
+            const isNameValid = this.name.trim() !== '';
+            const isPhoneNumberValid = this.phoneNumber.trim() !== '';
+
+            // Check if the name contains only letters
+            const nameContainsOnlyLetters = /^[A-Za-z]+$/.test(this.name);
+
+            // Check if the phoneNumber contains only numbers
+            const phoneNumberContainsOnlyNumbers = /^[0-9]+$/.test(this.phoneNumber);
+
+            return isNameValid && isPhoneNumberValid && nameContainsOnlyLetters && phoneNumberContainsOnlyNumbers;
         },
     },
 
     methods: {
         addToCart(lesson) {
             if (lesson.Spaces > 0) {
-              // Check if the lesson is already in the shopping cart
-              const cartLesson = this.shoppingCart.find(item => item.id === lesson.id);
-        
-              if (cartLesson) {
-                // If the lesson is in the cart, increase its spaces by one
-                lesson.Spaces--;
-                cartLesson.Spaces++;
-              } else {
-                // If the lesson is not in the cart, add it to the cart
-                lesson.Spaces--;
-                this.shoppingCart.push({ ...lesson, Spaces: 1 });
-              }
+                // Check if the lesson is already in the shopping cart
+                const cartLesson = this.shoppingCart.find(item => item.id === lesson.id);
+
+                if (cartLesson) {
+                    // If the lesson is in the cart, increase its spaces by one
+                    lesson.Spaces--;
+                    cartLesson.Spaces++;
+                } else {
+                    // If the lesson is not in the cart, add it to the cart
+                    lesson.Spaces--;
+                    this.shoppingCart.push({ ...lesson, Spaces: 1 });
+                }
             }
         },
         removeFromCart(lesson) {
@@ -168,7 +184,7 @@ const app = Vue.createApp({
             if (lesson.Spaces === 0) {
                 const lessonIndex = this.shoppingCart.findIndex(item => item.id === lesson.id);
                 if (lessonIndex !== -1) {
-                  this.shoppingCart.splice(lessonIndex, 1);
+                    this.shoppingCart.splice(lessonIndex, 1);
                 }
             }
         },
@@ -176,10 +192,18 @@ const app = Vue.createApp({
         changePage() {
             this.showCart = !this.showCart;
             this.showMain = !this.showMain;
-        }
+        },
+
+        checkName(event) {
+            event.target.value = event.target.value.replace(/[^A-Za-z]/g, '');
+        },
+
+        checkNumber(event) {
+            event.target.value = event.target.value.replace(/[^0-9]/g, '');
+        },
     }
 
-      
+
 })
 
 app.mount('body')
