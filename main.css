@@ -56,3 +56,19 @@ label {
 .shopping-cart:hover {
     background-color: rgb(6, 110, 142);
 }
+
+.checkOutButton {
+    width: 150px;
+    height: 50px;
+    background-color: rgb(76, 0, 139);
+    cursor: pointer;
+    color: aliceblue;
+    border-radius: 25%;
+    border: none;
+    box-shadow: 1px 1px 1px 1px rgb(21, 1, 37);
+    margin-top: 10px;
+}
+
+.checkOutButton:hover {
+    background-color: rgb(10, 76, 143);
+}

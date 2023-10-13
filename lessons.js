@@ -3,6 +3,8 @@ const app = Vue.createApp({
         return {
             sort1: '',
             sort2: '',
+            showCart: false,
+            showMain: true,
             lessons: [
                 {
                     id: 1,
@@ -139,19 +141,45 @@ const app = Vue.createApp({
             else {
                 return this.lessons;
             }
-        }
+        },
     },
 
     methods: {
         addToCart(lesson) {
             if (lesson.Spaces > 0) {
+              // Check if the lesson is already in the shopping cart
+              const cartLesson = this.shoppingCart.find(item => item.id === lesson.id);
+        
+              if (cartLesson) {
+                // If the lesson is in the cart, increase its spaces by one
                 lesson.Spaces--;
-                this.shoppingCart.push(lesson);
+                cartLesson.Spaces++;
+              } else {
+                // If the lesson is not in the cart, add it to the cart
+                lesson.Spaces--;
+                this.shoppingCart.push({ ...lesson, Spaces: 1 });
+              }
             }
+        },
+        removeFromCart(lesson) {
+            lesson.Spaces--;
+            const listLesson = this.lessons.find(item => item.id === lesson.id);
+            listLesson.Spaces++;
+            if (lesson.Spaces === 0) {
+                const lessonIndex = this.shoppingCart.findIndex(item => item.id === lesson.id);
+                if (lessonIndex !== -1) {
+                  this.shoppingCart.splice(lessonIndex, 1);
+                }
+            }
+        },
+
+        changePage() {
+            this.showCart = !this.showCart;
+            this.showMain = !this.showMain;
         }
     }
 
       
 })
 
-app.mount('#box')
+app.mount('body')
