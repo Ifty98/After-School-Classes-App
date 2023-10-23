@@ -51,11 +51,15 @@
                 </form>
             </div>
             <div class="col-4">
-                <button v-if="shoppingCart.length > 0" class="shopping-cart" type="button" @click="changePage()">
+                <button v-if="shoppingCart.length > 0 && showCart == false" class="shopping-cart" type="button" @click="changePage()">
                     <i class="fa-solid fa-bag-shopping"></i>
                     Shopping Cart
                 </button>
-                <button v-else disabled="disabled" class="shopping-cart" type="button" @click="changePage()">
+                <button v-else-if="showCart == true" class="shopping-cart" type="button" @click="changePage()">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    Shopping Cart
+                </button>
+                <button v-else disabled class="shopping-cart" type="button" @click="changePage()">
                     <i class="fa-solid fa-bag-shopping"></i>
                     Shopping Cart
                 </button>
@@ -144,8 +148,8 @@
                           <input class="form-control" id="number" @input="checkNumber" v-model="phoneNumber">
                         </div>
                         <div>
-                            <button v-if="correctForm" class="checkOutButton" type="submit" class="btn btn-default">Submit</button>
-                            <button v-else disabled style="background-color: red;" class="checkOutButton" type="submit" class="btn btn-default">Submit</button>
+                            <button v-if="correctForm" @click="submitForm" class="checkOutButton" class="btn btn-default">Confirm Order</button>
+                            <button v-else disabled style="background-color: red;" class="checkOutButton" type="submit" class="btn btn-default">Confirm Order</button>
                         </div>
                     </form>         
                 </div>
