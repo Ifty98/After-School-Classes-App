@@ -7,6 +7,7 @@ const app = Vue.createApp({
             showMain: true,
             name: '',
             phoneNumber: '',
+            num: '0',
             lessons: [
                 {
                     id: 1,
@@ -157,6 +158,16 @@ const app = Vue.createApp({
             const phoneNumberContainsOnlyNumbers = /^[0-9]+$/.test(this.phoneNumber);
 
             return isNameValid && isPhoneNumberValid && nameContainsOnlyLetters && phoneNumberContainsOnlyNumbers;
+        },
+
+        itemsNumber() {
+            if (shoppingCart.length > 0) {
+                for (let index = 0; index < shoppingCart.length; index++) {
+                    let tempNum = shoppingCart[index].Spaces;
+                    this.num += tempNum;
+                    return this.num; 
+                }       
+            }
         },
     },
 
