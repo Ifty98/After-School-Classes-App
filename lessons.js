@@ -7,7 +7,11 @@ const app = Vue.createApp({
             showMain: true,
             name: '',
             phoneNumber: '',
-            num: '0',
+            num: 0,
+            searchInput: '',
+            matchingLessons: [
+
+            ],
             lessons: [
                 {
                     id: 1,
@@ -93,6 +97,9 @@ const app = Vue.createApp({
             shoppingCart: [
 
             ],
+            searchedLessons: [
+
+            ],
         }
     },
     computed: {
@@ -140,7 +147,15 @@ const app = Vue.createApp({
                     return this.lessons;
                 }
             }
-
+            if (this.searchInput.length > 0) {
+                const input = this.searchInput.toLowerCase();
+                return this.lessons.filter(lesson => {
+                    const subject = lesson.Subject.toLowerCase();
+                    const location = lesson.Location.toLowerCase();
+                    return subject.includes(input) || location.includes(input);
+                });
+            }
+            
             else {
                 return this.lessons;
             }
@@ -148,8 +163,8 @@ const app = Vue.createApp({
 
         correctForm() {
             // Check if the name and phoneNumber are not empty
-            const isNameValid = this.name.trim() !== '';
-            const isPhoneNumberValid = this.phoneNumber.trim() !== '';
+            const isNameValid = this.name !== '';
+            const isPhoneNumberValid = this.phoneNumber !== '';
 
             // Check if the name contains only letters
             const nameContainsOnlyLetters = /^[A-Za-z]+$/.test(this.name);
@@ -158,16 +173,6 @@ const app = Vue.createApp({
             const phoneNumberContainsOnlyNumbers = /^[0-9]+$/.test(this.phoneNumber);
 
             return isNameValid && isPhoneNumberValid && nameContainsOnlyLetters && phoneNumberContainsOnlyNumbers;
-        },
-
-        itemsNumber() {
-            if (shoppingCart.length > 0) {
-                for (let index = 0; index < shoppingCart.length; index++) {
-                    let tempNum = shoppingCart[index].Spaces;
-                    this.num += tempNum;
-                    return this.num; 
-                }       
-            }
         },
     },
 
@@ -186,6 +191,7 @@ const app = Vue.createApp({
                     lesson.Spaces--;
                     this.shoppingCart.push({ ...lesson, Spaces: 1 });
                 }
+                this.num++;
             }
         },
         removeFromCart(lesson) {
@@ -198,6 +204,7 @@ const app = Vue.createApp({
                     this.shoppingCart.splice(lessonIndex, 1);
                 }
             }
+            this.num--;
         },
 
         changePage() {
@@ -216,9 +223,7 @@ const app = Vue.createApp({
         submitForm() {
             alert("Order comfirmed");
         }
-    }
-
-
+    },
 })
 
 app.mount('body')

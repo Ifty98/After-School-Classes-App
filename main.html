@@ -53,16 +53,28 @@
             <div class="col-4">
                 <button v-if="shoppingCart.length > 0 && showCart == false" class="shopping-cart" type="button" @click="changePage()">
                     <i class="fa-solid fa-bag-shopping"></i>
-                    Shopping Cart
+                    {{ num }} Shopping Cart
                 </button>
                 <button v-else-if="showCart == true" class="shopping-cart" type="button" @click="changePage()">
                     <i class="fa-solid fa-bag-shopping"></i>
-                    Shopping Cart
+                    {{ num }} Shopping Cart
                 </button>
                 <button v-else disabled class="shopping-cart" type="button">
                     <i class="fa-solid fa-bag-shopping"></i>
-                    Shopping Cart
+                    {{ num }} Shopping Cart
                 </button>
+            </div>
+        </div>
+    </div>
+    <div class="container pt-5" v-show="showMain">
+        <div class="row">
+            <div class="col-3">
+                <div class="input-group rounded">
+                    <input v-model.trim="searchInput" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                    <span class="input-group-text border-0" id="search-addon">
+                        <i class="fa-solid fa-magnifying-glass" style="color: #17b09e;"></i>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -141,11 +153,11 @@
                     <form>
                         <div class="form-group">
                           <label for="name">Name:</label>
-                          <input class="form-control" id="name" @input="checkName" v-model="name">
+                          <input class="form-control" id="name" @input="checkName" v-model.trim="name">
                         </div>
                         <div class="form-group">
                           <label for="number">Phone Number:</label>
-                          <input class="form-control" id="number" @input="checkNumber" v-model="phoneNumber">
+                          <input class="form-control" id="number" @input="checkNumber" v-model.trim="phoneNumber">
                         </div>
                         <div>
                             <button v-if="correctForm" @click="submitForm" class="checkOutButton" class="btn btn-default">Confirm Order</button>
