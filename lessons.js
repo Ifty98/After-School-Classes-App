@@ -1,17 +1,23 @@
 const app = Vue.createApp({
     data() {
         return {
+            // initial value for the first sorting form
             sort1: '',
+            // intial value for the second sorting form
             sort2: '',
+            // initialy the app shows the main page
             showCart: false,
             showMain: true,
             name: '',
             phoneNumber: '',
+            // initila number of items in the shopping cart
             num: 0,
+            // initial value for the search bar
             searchInput: '',
             matchingLessons: [
 
             ],
+            //list of lessons in json format 
             lessons: [
                 {
                     id: 1,
@@ -19,6 +25,7 @@ const app = Vue.createApp({
                     Location: "London",
                     Price: 100,
                     Spaces: 5,
+                    //font awesome icon
                     Image: "icon fa-solid fa-square-root-variable fa-beat-fade fa-4x",
                 },
                 {
@@ -94,20 +101,25 @@ const app = Vue.createApp({
                     Image: "fa-solid fa-music fa-beat-fade fa-4x",
                 },
             ],
+            //lessons added to the shopping cart are stored here 
             shoppingCart: [
-
-            ],
-            searchedLessons: [
 
             ],
         }
     },
+    //computed properties don't accept arguments and they update when a dependency changes
     computed: {
+        //function to sort the lessons 
         sortedLessons() {
+            //if input value is subject 
             if (this.sort1 === 'subject') {
+                //sort by subject in ascending order
                 if (this.sort2 === 'ascending') {
+                    /* using slice() creates a new array without changing the original array and sorts the new array
+                    based on the comparison function added  */
                     return this.lessons.slice().sort((a, b) => a.Subject.localeCompare(b.Subject));
                 }
+                //sort by subject in descending order
                 if (this.sort2 === 'descending') {
                     return this.lessons.slice().sort((a, b) => b.Subject.localeCompare(a.Subject));
                 } else {
@@ -147,11 +159,15 @@ const app = Vue.createApp({
                     return this.lessons;
                 }
             }
+            //if user enters a text in the search space
             if (this.searchInput.length > 0) {
+                //the input is converted to lower case
                 const input = this.searchInput.toLowerCase();
+                //and using filter returns a new array with the lessons that meet the requirements without changing the original one 
                 return this.lessons.filter(lesson => {
                     const subject = lesson.Subject.toLowerCase();
                     const location = lesson.Location.toLowerCase();
+                    //return the selected lesson if it's subject or location contains the specified input
                     return subject.includes(input) || location.includes(input);
                 });
             }
@@ -177,6 +193,7 @@ const app = Vue.createApp({
     },
 
     methods: {
+        //method to add the selected lesson to the shopping cart
         addToCart(lesson) {
             if (lesson.Spaces > 0) {
                 // Check if the lesson is already in the shopping cart
@@ -191,35 +208,45 @@ const app = Vue.createApp({
                     lesson.Spaces--;
                     this.shoppingCart.push({ ...lesson, Spaces: 1 });
                 }
+                //every time a lesson is added the number of items in the shopping cart increases
                 this.num++;
             }
         },
+        //method to remove the selected lesson from the shopping cart
         removeFromCart(lesson) {
+            //decreases the spaces of the selected lesson in the shopping cart
             lesson.Spaces--;
+            //looks for the lesson in the lessons array using its id 
             const listLesson = this.lessons.find(item => item.id === lesson.id);
+            //and increases its spaces
             listLesson.Spaces++;
+            // if the spaces for the lesson in the shopping cart reach 0, remove it from the shopping cart
             if (lesson.Spaces === 0) {
                 const lessonIndex = this.shoppingCart.findIndex(item => item.id === lesson.id);
+                // if the lesson is found in the shopping cart, remove it
                 if (lessonIndex !== -1) {
                     this.shoppingCart.splice(lessonIndex, 1);
                 }
             }
+            // decrease the total count of items in the shopping cart
             this.num--;
         },
-
+        //this method changes the value of showCart and showMain every time is executed
         changePage() {
             this.showCart = !this.showCart;
             this.showMain = !this.showMain;
         },
-
+        //replace any characters that are not letters (A-Za-z) with an empty string
+        //only letters are allowed in the input
         checkName(event) {
             event.target.value = event.target.value.replace(/[^A-Za-z]/g, '');
         },
-
+        //replace any characters that are not digits (0-9) with an empty string
+        //only numeric digits are allowed in the input
         checkNumber(event) {
             event.target.value = event.target.value.replace(/[^0-9]/g, '');
         },
-
+        //submitting the form send an alert
         submitForm() {
             alert("Order comfirmed");
         }
