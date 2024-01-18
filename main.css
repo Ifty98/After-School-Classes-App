@@ -78,3 +78,8 @@ h2 {
     color: rgb(11, 211, 177);
     
 }
+
+.cartMessage {
+    font-size: 20px;
+    color: azure;
+}

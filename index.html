@@ -95,10 +95,10 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col">
-                                    <p>Subject: {{ lesson.Subject }}</p>
-                                    <p>Location: {{ lesson.Location }}</p>
-                                    <p>Price: £{{ lesson.Price }}</p>
-                                    <p>Spaces: {{ lesson.Spaces }}</p>
+                                    <p>Subject: {{ lesson.topic }}</p>
+                                    <p>Location: {{ lesson.location }}</p>
+                                    <p>Price: £{{ lesson.price }}</p>
+                                    <p>Spaces: {{ lesson.space }}</p>
                                 </div>
                                 <div class="col">
                                     <div class="row pt-2">
@@ -107,7 +107,7 @@
                                     <div class="row pt-5">
                                         <!-- using v-if checks if the selected lesson still has spaces avilable or not to enable or disable the add to cart button -->
                                         <!-- clicking the button runs a method that takes as an argument the selected lesson -->
-                                        <button v-if="lesson.Spaces > 0" @click="addToCart(lesson)" class="add-to-cart-button" type="button">
+                                        <button v-if="lesson.space > 0" @click="addToCart(lesson)" class="add-to-cart-button" type="button">
                                             Add to Cart
                                         </button>
                                         <button v-else disabled style="background-color: red;" class="add-to-cart-button" type="button">
@@ -127,6 +127,9 @@
         <div class="container mt-5">
             <h1>Shopping Cart</h1>
         </div>
+        <div class="container mt-3" v-if="shoppingCart.length <= 0">
+            <p class="cartMessage">No items in the cart!!</p>
+        </div>
         <div class="main-box container pt-5">
           <div class="row">
               <div class="col-4 pt-5" v-for="lesson in shoppingCart">
@@ -135,10 +138,10 @@
                           <div class="container">
                               <div class="row">
                                   <div class="col">
-                                      <p>Subject: {{ lesson.Subject }}</p>
-                                      <p>Location: {{ lesson.Location }}</p>
-                                      <p>Price: £{{ lesson.Price }}</p>
-                                      <p>Spaces: {{ lesson.Spaces }}</p>
+                                      <p>Subject: {{ lesson.topic }}</p>
+                                      <p>Location: {{ lesson.location }}</p>
+                                      <p>Price: £{{ lesson.price }}</p>
+                                      <p>Spaces: {{ lesson.space }}</p>
                                   </div>
                                   <div class="col">
                                       <div class="row pt-2">
@@ -175,7 +178,7 @@
                         </div>
                         <div>
                             <!-- if the method correct form returns true the button is enabled but if it returns false the button is disabled -->
-                            <button v-if="correctForm" @click="submitForm" class="checkOutButton" class="btn btn-default">Confirm Order</button>
+                            <button v-if="correctForm && shoppingCart.length > 0" @click="submitForm" class="checkOutButton" class="btn btn-default">Confirm Order</button>
                             <button v-else disabled style="background-color: red;" class="checkOutButton" type="submit" class="btn btn-default">Confirm Order</button>
                         </div>
                     </form>         

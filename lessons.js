@@ -19,87 +19,7 @@ const app = Vue.createApp({
             ],
             //list of lessons in json format 
             lessons: [
-                {
-                    id: 1,
-                    Subject: "Math",
-                    Location: "London",
-                    Price: 100,
-                    Spaces: 5,
-                    //font awesome icon
-                    Image: "icon fa-solid fa-square-root-variable fa-beat-fade fa-4x",
-                },
-                {
-                    id: 2,
-                    Subject: "English",
-                    Location: "London",
-                    Price: 85,
-                    Spaces: 5,
-                    Image: "fa-solid fa-pencil fa-beat fa-4x",
-                },
-                {
-                    id: 3,
-                    Subject: "Math",
-                    Location: "Oxford",
-                    Price: 120,
-                    Spaces: 5,
-                    Image: "icon fa-solid fa-square-root-variable fa-beat-fade fa-4x",
-                },
-                {
-                    id: 4,
-                    Subject: "Music",
-                    Location: "Bristol",
-                    Price: 150,
-                    Spaces: 5,
-                    Image: "fa-solid fa-music fa-beat-fade fa-4x",
-                },
-                {
-                    id: 5,
-                    Subject: "Music",
-                    Location: "Cambridge",
-                    Price: 120,
-                    Spaces: 5,
-                    Image: "fa-solid fa-music fa-beat-fade fa-4x",
-                },
-                {
-                    id: 6,
-                    Subject: "Science",
-                    Location: "Cambridge",
-                    Price: 90,
-                    Spaces: 5,
-                    Image: "fa-solid fa-flask-vial fa-beat-fade fa-4x",
-                },
-                {
-                    id: 7,
-                    Subject: "Science",
-                    Location: "London",
-                    Price: 145,
-                    Spaces: 5,
-                    Image: "fa-solid fa-flask-vial fa-beat-fade fa-4x",
-                },
-                {
-                    id: 8,
-                    Subject: "English",
-                    Location: "Oxford",
-                    Price: 100,
-                    Spaces: 5,
-                    Image: "fa-solid fa-pencil fa-beat fa-4x",
-                },
-                {
-                    id: 9,
-                    Subject: "Math",
-                    Location: "Luton",
-                    Price: 75,
-                    Spaces: 5,
-                    Image: "icon fa-solid fa-square-root-variable fa-beat-fade fa-4x",
-                },
-                {
-                    id: 10,
-                    Subject: "Music",
-                    Location: "Luton",
-                    Price: 110,
-                    Spaces: 5,
-                    Image: "fa-solid fa-music fa-beat-fade fa-4x",
-                },
+                
             ],
             //lessons added to the shopping cart are stored here 
             shoppingCart: [
@@ -107,6 +27,12 @@ const app = Vue.createApp({
             ],
         }
     },
+
+    //run functions when the app is loaded
+    mounted() {
+        this.getLessons();
+    },
+
     //computed properties don't accept arguments and they update when a dependency changes
     computed: {
         //function to sort the lessons 
@@ -193,20 +119,34 @@ const app = Vue.createApp({
     },
 
     methods: {
+        //request to the server all data about the lessons
+        async getLessons() {
+            try {
+              //send get request  
+              const response = await fetch('http://localhost:3000/lessons');
+              //get data and store it in the lessons array
+              const data = await response.json();
+              this.lessons = data;
+            } catch (error) {
+                //catch any error during the request
+                console.error('Error fetching lessons:', error);
+            }
+        },
+
         //method to add the selected lesson to the shopping cart
         addToCart(lesson) {
-            if (lesson.Spaces > 0) {
+            if (lesson.space > 0) {
                 // Check if the lesson is already in the shopping cart
-                const cartLesson = this.shoppingCart.find(item => item.id === lesson.id);
+                const cartLesson = this.shoppingCart.find(item => item._id === lesson._id);
 
                 if (cartLesson) {
                     // If the lesson is in the cart, increase its spaces by one
-                    lesson.Spaces--;
-                    cartLesson.Spaces++;
+                    lesson.space--;
+                    cartLesson.space++;
                 } else {
                     // If the lesson is not in the cart, add it to the cart
-                    lesson.Spaces--;
-                    this.shoppingCart.push({ ...lesson, Spaces: 1 });
+                    lesson.space--;
+                    this.shoppingCart.push({ ...lesson, space: 1 });
                 }
                 //every time a lesson is added the number of items in the shopping cart increases
                 this.num++;
@@ -215,14 +155,14 @@ const app = Vue.createApp({
         //method to remove the selected lesson from the shopping cart
         removeFromCart(lesson) {
             //decreases the spaces of the selected lesson in the shopping cart
-            lesson.Spaces--;
+            lesson.space--;
             //looks for the lesson in the lessons array using its id 
-            const listLesson = this.lessons.find(item => item.id === lesson.id);
+            const listLesson = this.lessons.find(item => item._id === lesson._id);
             //and increases its spaces
-            listLesson.Spaces++;
+            listLesson.space++;
             // if the spaces for the lesson in the shopping cart reach 0, remove it from the shopping cart
-            if (lesson.Spaces === 0) {
-                const lessonIndex = this.shoppingCart.findIndex(item => item.id === lesson.id);
+            if (lesson.space === 0) {
+                const lessonIndex = this.shoppingCart.findIndex(item => item._id === lesson._id);
                 // if the lesson is found in the shopping cart, remove it
                 if (lessonIndex !== -1) {
                     this.shoppingCart.splice(lessonIndex, 1);
