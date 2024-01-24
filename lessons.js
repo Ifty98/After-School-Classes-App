@@ -52,11 +52,11 @@ const app = Vue.createApp({
                 if (this.sort2 === 'ascending') {
                     /* using slice() creates a new array without changing the original array and sorts the new array
                     based on the comparison function added  */
-                    return this.lessons.slice().sort((a, b) => a.Subject.localeCompare(b.Subject));
+                    return this.lessons.slice().sort((a, b) => a.topic.localeCompare(b.topic));
                 }
                 //sort by subject in descending order
                 if (this.sort2 === 'descending') {
-                    return this.lessons.slice().sort((a, b) => b.Subject.localeCompare(a.Subject));
+                    return this.lessons.slice().sort((a, b) => b.topic.localeCompare(a.topic));
                 } else {
                     return this.lessons;
                 }
@@ -64,10 +64,10 @@ const app = Vue.createApp({
 
             if (this.sort1 === 'location') {
                 if (this.sort2 === 'ascending') {
-                    return this.lessons.slice().sort((a, b) => a.Location.localeCompare(b.Location));
+                    return this.lessons.slice().sort((a, b) => a.location.localeCompare(b.location));
                 }
                 if (this.sort2 === 'descending') {
-                    return this.lessons.slice().sort((a, b) => b.Location.localeCompare(a.Location));
+                    return this.lessons.slice().sort((a, b) => b.location.localeCompare(a.location));
                 } else {
                     return this.lessons;
                 }
@@ -75,10 +75,10 @@ const app = Vue.createApp({
 
             if (this.sort1 === 'price') {
                 if (this.sort2 === 'ascending') {
-                    return this.lessons.slice().sort((a, b) => a.Price - b.Price);
+                    return this.lessons.slice().sort((a, b) => a.price - b.price);
                 }
                 if (this.sort2 === 'descending') {
-                    return this.lessons.slice().sort((a, b) => b.Price - a.Price);
+                    return this.lessons.slice().sort((a, b) => b.price - a.price);
                 } else {
                     return this.lessons;
                 }
@@ -86,10 +86,10 @@ const app = Vue.createApp({
 
             if (this.sort1 === 'availability') {
                 if (this.sort2 === 'ascending') {
-                    return this.lessons.slice().sort((a, b) => a.Spaces - b.Spaces);
+                    return this.lessons.slice().sort((a, b) => a.space - b.space);
                 }
                 if (this.sort2 === 'descending') {
-                    return this.lessons.slice().sort((a, b) => b.Spaces - a.Spaces);
+                    return this.lessons.slice().sort((a, b) => b.space - a.space);
                 } else {
                     return this.lessons;
                 }
