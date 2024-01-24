@@ -102,7 +102,7 @@
                                 </div>
                                 <div class="col">
                                     <div class="row pt-2">
-                                        <i v-bind:class="lesson.Image" style="color: #18dddd;"></i>
+                                        <img :src="getLessonImage(lesson)" alt="Lesson Image">
                                     </div>
                                     <div class="row pt-5">
                                         <!-- using v-if checks if the selected lesson still has spaces avilable or not to enable or disable the add to cart button -->
@@ -145,7 +145,7 @@
                                   </div>
                                   <div class="col">
                                       <div class="row pt-2">
-                                          <i v-bind:class="lesson.Image" style="color: #18dddd;"></i>
+                                        <img :src="getLessonImage(lesson)" alt="Lesson Image">
                                       </div>
                                       <div class="row pt-5">
                                           <!-- on click runs a method taking the selected lesson as an argument -->

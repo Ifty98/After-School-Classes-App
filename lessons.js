@@ -19,12 +19,21 @@ const app = Vue.createApp({
             ],
             //list of lessons in json format 
             lessons: [
-                
+
             ],
             //lessons added to the shopping cart are stored here 
             shoppingCart: [
 
             ],
+            //ids of the lessons that are in the shopping cart
+            lessonIDs: [
+
+            ],
+            //lessons requested by the user using the search functionality
+            searchedLessons: [
+
+            ],
+            lessonImage: '',
         }
     },
 
@@ -87,17 +96,13 @@ const app = Vue.createApp({
             }
             //if user enters a text in the search space
             if (this.searchInput.length > 0) {
-                //the input is converted to lower case
-                const input = this.searchInput.toLowerCase();
-                //and using filter returns a new array with the lessons that meet the requirements without changing the original one 
-                return this.lessons.filter(lesson => {
-                    const subject = lesson.Subject.toLowerCase();
-                    const location = lesson.Location.toLowerCase();
-                    //return the selected lesson if it's subject or location contains the specified input
-                    return subject.includes(input) || location.includes(input);
-                });
+                //request to the server all the lessons searched by the user
+                this.getSearchedLessons();
+                //modify the lesssons array with the lessons got from the search request
+                return this.lessons
+                .filter(lesson => this.searchedLessons.some(searchedLesson => searchedLesson._id === lesson._id));
             }
-            
+
             else {
                 return this.lessons;
             }
@@ -119,20 +124,101 @@ const app = Vue.createApp({
     },
 
     methods: {
+        //if user enters a text in the search space
+        async getSearchedLessons() {
+            try {
+                //send get request with search input as a query parameter
+                const response = await fetch(`http://localhost:3000/lessons/search?userInput=${this.searchInput}`);
+
+                //get data and store it in the searchedLessons array
+                const data = await response.json();
+                this.searchedLessons = data;
+            } catch (error) {
+                //catch any error during the request
+                console.error('Error fetching lessons:', error);
+            }
+        },
+        
+        /*every time an item is added or removed from the shopping cart
+        update the array of lessons IDs*/
+        updateLessonIDs() {
+            this.lessonIDs = [];
+            this.shoppingCart.forEach(cartItem => {
+                let nSpaces = cartItem.space;
+                let lessonId = cartItem._id;
+                //store the IDs of the lessons in the shopping depending on the number of spaces requested
+                this.lessonIDs.push(...Array(nSpaces).fill(lessonId));
+            });
+        },
+
         //request to the server all data about the lessons
         async getLessons() {
             try {
-              //send get request  
-              const response = await fetch('http://localhost:3000/lessons');
-              //get data and store it in the lessons array
-              const data = await response.json();
-              this.lessons = data;
+                //send get request  
+                const response = await fetch('http://localhost:3000/lessons');
+                //get data and store it in the lessons array
+                const data = await response.json();
+                this.lessons = data;
             } catch (error) {
                 //catch any error during the request
                 console.error('Error fetching lessons:', error);
             }
         },
 
+        //post request to store a new order in the database
+        async submitOrder() {
+            try {
+                const response = await fetch('http://localhost:3000/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: this.name,
+                        phoneNumber: this.phoneNumber,
+                        lessonIDs: this.lessonIDs,
+                        numberOfSpaces: this.num,
+                    }),
+                });
+            } catch (error) {
+                console.error('Error submitting order:', error);
+                //handle error
+            }
+        },
+        
+        //put request to update the number spaces of the lessons after an order have been done
+        async updateLessonSpaces() {
+            try {
+                const response = await fetch('http://localhost:3000/lessons/updateSpaces', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        lessonIDs: this.lessonIDs,
+                    }),
+                });
+            } catch (error) {
+                console.error('Error updating lesson spaces:', error);
+                //handle error
+            }
+        },
+
+        getLessonImage(lesson) {
+            if (lesson.topic == "Math") {
+                return this.lessonImage = "http://localhost:3000/lesson-images/math.png"
+            }
+            if (lesson.topic == "English") {
+                return this.lessonImage = "http://localhost:3000/lesson-images/english.png"
+            }
+            if (lesson.topic == "Music") {
+                return this.lessonImage = "http://localhost:3000/lesson-images/music.png"
+            }
+            if (lesson.topic == "Science") {
+                return this.lessonImage = "http://localhost:3000/lesson-images/science.png"
+            }
+        },
+         
         //method to add the selected lesson to the shopping cart
         addToCart(lesson) {
             if (lesson.space > 0) {
@@ -151,7 +237,9 @@ const app = Vue.createApp({
                 //every time a lesson is added the number of items in the shopping cart increases
                 this.num++;
             }
+            this.updateLessonIDs();
         },
+
         //method to remove the selected lesson from the shopping cart
         removeFromCart(lesson) {
             //decreases the spaces of the selected lesson in the shopping cart
@@ -170,7 +258,9 @@ const app = Vue.createApp({
             }
             // decrease the total count of items in the shopping cart
             this.num--;
+            this.updateLessonIDs();
         },
+
         //this method changes the value of showCart and showMain every time is executed
         changePage() {
             this.showCart = !this.showCart;
@@ -188,6 +278,8 @@ const app = Vue.createApp({
         },
         //submitting the form send an alert
         submitForm() {
+            this.submitOrder();
+            this.updateLessonSpaces();
             alert("Order comfirmed");
         }
     },
