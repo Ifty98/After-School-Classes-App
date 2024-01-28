@@ -128,8 +128,8 @@ const app = Vue.createApp({
         async getSearchedLessons() {
             try {
                 //send get request with search input as a query parameter
-                const response = await fetch(`http://localhost:3000/lessons/search?userInput=${this.searchInput}`);
-
+                //const response = await fetch(`http://localhost:3000/lessons/search?userInput=${this.searchInput}`);
+                const response = await fetch(`http://firstapp-env.eba-c7ragnr7.eu-west-2.elasticbeanstalk.com/lessons/search?userInput=${this.searchInput}`);
                 //get data and store it in the searchedLessons array
                 const data = await response.json();
                 this.searchedLessons = data;
@@ -155,7 +155,8 @@ const app = Vue.createApp({
         async getLessons() {
             try {
                 //send get request  
-                const response = await fetch('http://localhost:3000/lessons');
+                //const response = await fetch('http://localhost:3000/lessons');
+                const response = await fetch('http://firstapp-env.eba-c7ragnr7.eu-west-2.elasticbeanstalk.com/lessons');
                 //get data and store it in the lessons array
                 const data = await response.json();
                 this.lessons = data;
@@ -168,7 +169,8 @@ const app = Vue.createApp({
         //post request to store a new order in the database
         async submitOrder() {
             try {
-                const response = await fetch('http://localhost:3000/orders', {
+                //http://localhost:3000/orders
+                const response = await fetch('http://firstapp-env.eba-c7ragnr7.eu-west-2.elasticbeanstalk.com/orders', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -189,7 +191,8 @@ const app = Vue.createApp({
         //put request to update the number spaces of the lessons after an order have been done
         async updateLessonSpaces() {
             try {
-                const response = await fetch('http://localhost:3000/lessons/updateSpaces', {
+                //http://localhost:3000/lessons/updateSpaces
+                const response = await fetch('http://firstapp-env.eba-c7ragnr7.eu-west-2.elasticbeanstalk.com/lessons/updateSpaces', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -206,16 +209,20 @@ const app = Vue.createApp({
 
         getLessonImage(lesson) {
             if (lesson.topic == "Math") {
-                return this.lessonImage = "http://localhost:3000/lesson-images/math.png"
+                //http://localhost:3000/lesson-images/math.png
+                return this.lessonImage = "http://firstapp-env.eba-c7ragnr7.eu-west-2.elasticbeanstalk.com/lesson-images/math.png"
             }
             if (lesson.topic == "English") {
-                return this.lessonImage = "http://localhost:3000/lesson-images/english.png"
+                //http://localhost:3000/lesson-images/english.png
+                return this.lessonImage = "http://firstapp-env.eba-c7ragnr7.eu-west-2.elasticbeanstalk.com/lesson-images/english.png"
             }
             if (lesson.topic == "Music") {
-                return this.lessonImage = "http://localhost:3000/lesson-images/music.png"
+                http://localhost:3000/lesson-images/music.png
+                return this.lessonImage = "http://firstapp-env.eba-c7ragnr7.eu-west-2.elasticbeanstalk.com/lesson-images/music.png"
             }
             if (lesson.topic == "Science") {
-                return this.lessonImage = "http://localhost:3000/lesson-images/science.png"
+                http://localhost:3000/lesson-images/science.png
+                return this.lessonImage = "http://firstapp-env.eba-c7ragnr7.eu-west-2.elasticbeanstalk.com/lesson-images/science.png"
             }
         },
          
