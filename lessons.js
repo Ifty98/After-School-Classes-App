@@ -42,7 +42,7 @@ const app = Vue.createApp({
         this.getLessons();
     },
 
-    created: function() {
+    created: function () {
         if ("serviceWorker" in navigator) {
             navigator.serviceWorker.register("service-worker.js");
         }
@@ -106,7 +106,7 @@ const app = Vue.createApp({
                 this.getSearchedLessons();
                 //modify the lesssons array with the lessons got from the search request
                 return this.lessons
-                .filter(lesson => this.searchedLessons.some(searchedLesson => searchedLesson._id === lesson._id));
+                    .filter(lesson => this.searchedLessons.some(searchedLesson => searchedLesson._id === lesson._id));
             }
 
             else {
@@ -130,6 +130,27 @@ const app = Vue.createApp({
     },
 
     methods: {
+        deleteAllCaches() {
+            caches.keys().then(function (names) {
+                for (let name of names)
+                    caches.delete(name);
+            });
+            console.log("All Caches Deleted");
+        },
+
+        unregisterAllServiceWorkers() {
+            navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                for (let registration of registrations) {
+                    registration.unregister()
+                }
+            });
+            console.log("ServiceWorkers Unregistered");
+        },
+
+        reloadPage() {
+            window.location.reload();
+        },
+
         //if user enters a text in the search space
         async getSearchedLessons() {
             try {
@@ -144,7 +165,7 @@ const app = Vue.createApp({
                 console.error('Error fetching lessons:', error);
             }
         },
-        
+
         /*every time an item is added or removed from the shopping cart
         update the array of lessons IDs*/
         updateLessonIDs() {
@@ -193,7 +214,7 @@ const app = Vue.createApp({
                 //handle error
             }
         },
-        
+
         //put request to update the number spaces of the lessons after an order have been done
         async updateLessonSpaces() {
             try {
@@ -231,7 +252,7 @@ const app = Vue.createApp({
                 return this.lessonImage = "https://firstapp-env.eba-c7ragnr7.eu-west-2.elasticbeanstalk.com/lesson-images/science.png"
             }
         },
-         
+
         //method to add the selected lesson to the shopping cart
         addToCart(lesson) {
             if (lesson.space > 0) {
