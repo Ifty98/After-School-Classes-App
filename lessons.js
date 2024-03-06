@@ -42,6 +42,12 @@ const app = Vue.createApp({
         this.getLessons();
     },
 
+    created: function() {
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("service-worker.js");
+        }
+    },
+
     //computed properties don't accept arguments and they update when a dependency changes
     computed: {
         //function to sort the lessons 
